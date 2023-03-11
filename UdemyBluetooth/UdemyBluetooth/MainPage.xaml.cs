@@ -14,16 +14,46 @@ public partial class MainPage : ContentPage
 
     private async void BLEServer_Clicked(object sender, EventArgs e)
     {
-        if (!IsBusy)
+        if (IsBusy)
         {
             return;
         }
 
-        await DisplayAlert("Server", "Server Clicked!", "Cancel");
+        await Task.Run(() =>
+        {
+            try
+            {
+                IBluetoothServer server = Resolver.Resolve<IBluetoothServer>();
+
+                if (server.Started)
+                {
+                    server.Stop();
+                    Dispatcher.Dispatch(() => btnServer.Text = "Start BLE Server");
+                }
+                else
+                {
+                    server.Start();
+                    Dispatcher.Dispatch(() => btnServer.Text = "Stop BLE Server");
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        });
     }
 
     private async void BLEScan_Clicked(object sender, EventArgs e)
     {
+        if (IsBusy)
+        {
+            return;
+        }
+
         IsBusy = true;
 
         await Task.Run(async () =>

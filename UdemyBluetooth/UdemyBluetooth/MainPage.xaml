@@ -16,6 +16,7 @@
                 HorizontalOptions="Center" />
 
             <Button
+                x:Name="btnServer"
                 Text="Start BLE Server"
                 HorizontalOptions="Center"
                 Clicked="BLEServer_Clicked" />

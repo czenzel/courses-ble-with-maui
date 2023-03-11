@@ -28,12 +28,8 @@ namespace UdemyBluetooth.Services
             if (Started)
                 return;
 
+            _bleHostingManager.StartAdvertising();
             CreateService().GetAwaiter().GetResult();
-
-            _bleHostingManager.StartAdvertising(new AdvertisementOptions("BleDemo", new string[]
-            {
-                BluetoothConstants.SERVICE_UUID
-            }));
         }
 
         private void Cleanup()
