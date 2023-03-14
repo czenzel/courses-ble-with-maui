@@ -1,5 +1,6 @@
 ﻿using UdemyBluetooth.Core;
 using UdemyBluetooth.Interfaces;
+using UdemyBluetooth.Structures;
 
 namespace UdemyBluetooth;
 
@@ -7,11 +8,12 @@ public partial class MainPage : ContentPage
 {
     private bool IsBusy { get; set; } = false;
 
-	public MainPage()
-	{
-		InitializeComponent();
-	}
+    public MainPage()
+    {
+        InitializeComponent();
+    }
 
+    /*
     private async void BLEServer_Clicked(object sender, EventArgs e)
     {
         if (IsBusy)
@@ -46,6 +48,7 @@ public partial class MainPage : ContentPage
             }
         });
     }
+    */
 
     private async void BLEScan_Clicked(object sender, EventArgs e)
     {
@@ -56,20 +59,42 @@ public partial class MainPage : ContentPage
 
         IsBusy = true;
 
-        await Task.Run(async () =>
+        await Task.Run(() =>
         {
             try
             {
                 IBluetoothClient client = Resolver.Resolve<IBluetoothClient>();
+                bool connecting = false;
 
-                client.ScanResults.CollectionChanged += (s, e) =>
+                client.ScanResults.CollectionChanged += async (s, e) =>
                 {
-                    System.Diagnostics.Debug.WriteLine($"BLE Scan > Devices In List: {client.ScanResults.Count}");
+                    if (client.ScanResults.Count > 0 && !connecting)
+                    {
+                        connecting = true;
+                        client.StopScan();
+
+                        await Task.Run(async () =>
+                        {
+                            IsBusy = true;
+
+                            UdemyBluetooth.Structures.BluetoothDevice device = client.ScanResults.OrderBy(a => a.Rssi)
+                                .First();
+
+                            bool result = client.Connect(device);
+                            await Task.Delay(TimeSpan.FromSeconds(2));
+
+                            int average = client.Average();
+                            System.Diagnostics.Debug.WriteLine($"Heart Rate Average: {average}");
+
+                            await Task.Delay(TimeSpan.FromSeconds(2));
+                            result &= client.Disconnect();
+
+                            IsBusy = false;
+                        });
+                    }
                 };
 
                 client.StartScan();
-                await Task.Delay(TimeSpan.FromSeconds(15));
-                client.StopScan();
             }
             catch (Exception ex)
             {

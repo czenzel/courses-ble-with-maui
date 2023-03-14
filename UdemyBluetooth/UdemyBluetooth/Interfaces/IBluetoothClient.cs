@@ -13,7 +13,8 @@ namespace UdemyBluetooth.Interfaces
         ObservableList<BluetoothDevice> ScanResults { get; }
         void StartScan();
         void StopScan();
-        void Connect(BluetoothDevice device);
-        void Disconnect();
+        bool Connect(BluetoothDevice device);
+        bool Disconnect();
+        int Average();
     }
 }

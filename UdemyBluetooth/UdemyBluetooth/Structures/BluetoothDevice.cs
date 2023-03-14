@@ -11,5 +11,6 @@ namespace UdemyBluetooth.Structures
         public string Uuid { get; set; }
         public string LocalName { get; set; }
         public object Device { get; set; }
+        public int Rssi { get; set; }
     }
 }

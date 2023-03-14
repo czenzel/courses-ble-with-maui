@@ -16,13 +16,7 @@
                 HorizontalOptions="Center" />
 
             <Button
-                x:Name="btnServer"
-                Text="Start BLE Server"
-                HorizontalOptions="Center"
-                Clicked="BLEServer_Clicked" />
-
-            <Button
-                Text="Start BLE Scan"
+                Text="Read Heart Monitor"
                 HorizontalOptions="Center"
                 Clicked="BLEScan_Clicked" />
 
