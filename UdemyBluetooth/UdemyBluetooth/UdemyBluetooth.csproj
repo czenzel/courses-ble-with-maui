@@ -49,7 +49,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Autofac" Version="7.0.0" />
+		<PackageReference Include="Autofac" Version="7.0.1" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
 		<PackageReference Include="Shiny.BluetoothLE" Version="3.0.0-alpha-0530" />
 		<PackageReference Include="Shiny.BluetoothLE.Hosting" Version="3.0.0-alpha-0530" />

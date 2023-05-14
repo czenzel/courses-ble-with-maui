@@ -13,6 +13,26 @@ public partial class MainPage : ContentPage
         InitializeComponent();
     }
 
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+
+        try
+        {
+            var permissions = Resolver.Resolve<IPermissions>();
+            var bleStatus = permissions.RequestBluetooth();
+
+            if (!bleStatus)
+            {
+                await this.DisplayAlert("Bluetooth Disabled", "Please enable location services to scan for Bluetooth devices.", "OK");
+            }
+        }
+        catch (Exception ex)
+        {
+            // Catch any exceptions here. Log them. Ask the user should we re-try? 
+        }
+    }
+
     /*
     private async void BLEServer_Clicked(object sender, EventArgs e)
     {

@@ -7,6 +7,7 @@ using Autofac;
 using UdemyBluetooth.Interfaces;
 using UdemyBluetooth.Services;
 using AutofacIContainer = Autofac.IContainer;
+using Permissions = UdemyBluetooth.Services.Permissions;
 
 namespace UdemyBluetooth.Core
 {
@@ -23,6 +24,7 @@ namespace UdemyBluetooth.Core
             builder.RegisterType<FileTransfer>().As<IFileTransfer>().SingleInstance();
             builder.RegisterType<BluetoothServer>().As<IBluetoothServer>().SingleInstance();
             builder.RegisterType<BluetoothClient>().As<IBluetoothClient>().SingleInstance();
+            builder.RegisterType<Permissions>().As<IPermissions>().SingleInstance();
             
             _container = builder.Build();
         }
