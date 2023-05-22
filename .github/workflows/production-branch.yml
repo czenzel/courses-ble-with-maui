@@ -13,10 +13,6 @@ jobs:
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v3
-    
-    - name: Change Directory
-      run: |
-        cd UdemyBluetooth
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
@@ -28,6 +24,7 @@ jobs:
       run: dotnet restore UdemyBluetooth.sln
 
     - name: Build
+      working-directory: ./UdemyBluetooth/UdemyBluetooth
       run: |
-        cd UdemyBluetooth |
+        dotnet restore UdemyBluetooth.csproj | 
         dotnet publish UdemyBluetooth.csproj -f net7.0-android -c Debug
