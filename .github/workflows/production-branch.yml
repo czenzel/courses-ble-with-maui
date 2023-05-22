@@ -6,6 +6,14 @@ on:
   pull_request:
     branches: [ "main" ]
 
+env:
+  TGT_ANDROID: 'net7.0-android33.0'
+  PRJ: 'UdemyBluetooth.csproj'
+  SLN: 'UdemyBluetooth.sln'
+  SLN_PATH: './UdemyBluetooth'
+  PRJ_PATH: './UdemyBluetooth/UdemyBluetooth'
+  NET_VER: '7.0.x'
+
 jobs:
   build:
     runs-on: windows-latest
@@ -17,14 +25,13 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 7.0.x
+        dotnet-version: ${{ env.NET_VER }}
 
     - name: Restore Dependencies
-      working-directory: ./UdemyBluetooth
+      working-directory: ${{ env.SLN_PATH }}
       run: dotnet restore UdemyBluetooth.sln
 
     - name: Build
-      working-directory: ./UdemyBluetooth/UdemyBluetooth
+      working-directory: ${{ env.PRJ_PATH }}
       run: |
-        dotnet restore UdemyBluetooth.csproj | 
-        dotnet publish UdemyBluetooth.csproj -f net7.0-android -c Debug
+        dotnet publish ${{ env.PRJ }} -f ${{ env.TGT_ANDROID }} -c Debug
