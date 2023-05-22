@@ -28,4 +28,6 @@ jobs:
       run: dotnet restore UdemyBluetooth.sln
 
     - name: Build
-      run: dotnet publish UdemyBluetooth.sln -f net7.0-android -c Debug
+      run: |
+        cd UdemyBluetooth |
+        dotnet publish UdemyBluetooth.csproj -f net7.0-android -c Debug
