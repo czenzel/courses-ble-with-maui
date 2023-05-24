@@ -156,14 +156,14 @@ namespace UdemyBluetooth.Services
                 {
                     IPeripheral device = (IPeripheral)_connectedDevice.Device;
 
-                    var characteristic = device.GetKnownCharacteristic(BluetoothConstants.HEART_RATE_SERVICE_UUID.ToString(),
-                        BluetoothConstants.HEART_RATE_MEASURE_UUID.ToString(), true).GetAwaiter().GetResult();
+                    var characteristic = device.GetCharacteristic(BluetoothConstants.HEART_RATE_SERVICE_UUID.ToString(),
+                        BluetoothConstants.HEART_RATE_MEASURE_UUID.ToString()).GetAwaiter().GetResult();
 
                     List<int> heartRates = new List<int>();
 
                     IDisposable notifications = null;
 
-                    notifications = characteristic.WhenNotificationReceived()
+                    notifications = device.NotifyCharacteristic(characteristic)
                         .Subscribe(_result =>
                         {
                             if (_result != null && _result.Data != null && _result.Data.Length > 0)
