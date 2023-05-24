@@ -163,7 +163,7 @@ namespace UdemyBluetooth.Services
 
                     IDisposable notifications = null;
 
-                    notifications = device.NotifyCharacteristic(characteristic)
+                    notifications = device.NotifyCharacteristic(characteristic, true)
                         .Subscribe(_result =>
                         {
                             if (_result != null && _result.Data != null && _result.Data.Length > 0)
@@ -214,7 +214,7 @@ namespace UdemyBluetooth.Services
                             }
                         });
 
-                    characteristic.Notify(true).GetAwaiter().GetResult();
+                    // characteristic.Notify(true).GetAwaiter().GetResult();
                 }
                 catch
                 {
