@@ -38,6 +38,27 @@ namespace UdemyBluetooth.Services
                         if (_state == ConnectionState.Connected)
                         {
                             _connectedDevice = device;
+
+                            /* Bluetooth Characteristics and Services */
+
+                            IReadOnlyList<BleServiceInfo> services = peripheral.GetServicesAsync().GetAwaiter().GetResult();
+
+                            foreach (BleServiceInfo service in services)
+                            {
+                                IReadOnlyList<BleCharacteristicInfo> characteristics = peripheral.GetCharacteristicsAsync(service.Uuid).GetAwaiter().GetResult();
+
+                                foreach (BleCharacteristicInfo characteristic in characteristics)
+                                {
+                                    System.Diagnostics.Debug.WriteLine($"Discovered > Service UUID [{service.Uuid}] > Characteristic UUID [{characteristic.Uuid}]");
+                                    System.Diagnostics.Debug.WriteLine($"Notify: {characteristic.CanNotify()} | Write: {characteristic.CanWrite()} | Read: {characteristic.CanRead()} | Indicate: {characteristic.CanIndicate()}");
+                                    System.Diagnostics.Debug.WriteLine("");
+                                }
+
+                                Task.Delay(TimeSpan.FromMilliseconds(2)).GetAwaiter().GetResult();
+                            }
+
+                            /* End - BLE Characteristics and Services */
+
                             _ = tcs.TrySetResult(true);
                         }
                     });
